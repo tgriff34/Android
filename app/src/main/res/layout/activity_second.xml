@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tristan.Android_Projects.SecondActivity">
+    tools:context="com.example.tristan.android_projects.SecondActivity">
 
     <Button
         android:id="@+id/doneButton"

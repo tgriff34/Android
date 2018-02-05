@@ -1,4 +1,4 @@
-package com.example.tristan.Android_Projects;
+package com.example.tristan.android_projects;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.tristan.Android_Projects", appContext.getPackageName());
+        assertEquals("com.example.tristan.android_projects", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tristan.Android_Projects;
+package com.example.tristan.android_projects;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

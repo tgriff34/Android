@@ -1,4 +1,4 @@
-package com.example.tristan.Android_Projects;
+package com.example.tristan.android_projects;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Log.d("DEMO", "Clicked ok");
-                        Intent intent = new Intent("com.example.tristan.Android_Projects.intent.action.VIEW");
+                        Intent intent = new Intent("com.example.tristan.android_projects.intent.action.VIEW");
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         intent.putExtra(PERSON_KEY, new Person("Bob Smith", "Charlotte", 20));
                         startActivity(intent);

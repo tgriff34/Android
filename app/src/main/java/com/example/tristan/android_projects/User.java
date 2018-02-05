@@ -1,4 +1,4 @@
-package com.example.tristan.Android_Projects;
+package com.example.tristan.android_projects;
 
 import java.io.Serializable;
 
