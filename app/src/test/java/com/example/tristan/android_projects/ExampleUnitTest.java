@@ -1,4 +1,4 @@
-package com.example.tristan.android_projects;
+package com.example.tristan.Android_Projects;
 
 import org.junit.Test;
 
