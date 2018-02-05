@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Android_Projects</string>
+    <string name="app_name">InClass02</string>
+    <string name="mood_text">Your mood is: </string>
 </resources>
