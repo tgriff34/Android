@@ -6,28 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.tristan.android_projects.displayActivity">
 
-    <ImageView
-        android:id="@+id/contactAvatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxHeight="100dp"
-        android:maxWidth="100dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/add_photo" />
+    <ListView
+        android:id="@+id/lvContacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/contactDescriptionView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <Button
-        android:id="@+id/detailContactButton"
-        android:layout_width="380dp"
-        android:layout_height="98dp"
-        android:text="Button"
-        android:visibility="invisible" />
 </android.support.constraint.ConstraintLayout>
