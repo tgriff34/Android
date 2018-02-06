@@ -1,22 +1,18 @@
 package com.example.tristan.android_projects;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        //Progress dialog variable set
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setMessage("Generating Passwords ...");
         progressDialog.setMax(100);
@@ -46,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //For thread pool
         handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message message) {
@@ -89,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //Seekbar variables
         countSeekBar = findViewById(R.id.seekBar);
         lengthSeekBar = findViewById(R.id.seekBar2);
         countSeekBar.setProgress(0);
@@ -99,11 +98,13 @@ public class MainActivity extends AppCompatActivity {
         textView1.setText("Select password length: " + passwordLength);
         charSequences = new CharSequence[passwordCount];
 
+        //When the user updates the amount of passwords, update the var value
+        //and set the charSequence array size to fit the amount of passwords
         countSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 passwordCount = 1+ i;
-                charSequences = new CharSequence[i];
+                charSequences = new CharSequence[passwordCount];
                 textView.setText("Select password count: " + passwordCount);
             }
 
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //When the user changes the password length using the seekbar, update var value
         lengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //Generate Passwords using thread pool
         myThreadPool = Executors.newFixedThreadPool(1);
 
         findViewById(R.id.threadButton).setOnClickListener(new View.OnClickListener() {
@@ -146,8 +149,65 @@ public class MainActivity extends AppCompatActivity {
                 myThreadPool.execute(new DoWork());
             }
         });
+
+        //Generate Passwords using asynctask
+        findViewById(R.id.asyncButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MyTask().execute(passwordCount);
+            }
+        });
+
     }
 
+    //Using AsyncTask
+    private class MyTask extends AsyncTask<Integer, Integer, Void> {
+
+        Util util = new Util();
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setProgress(0);
+            progressDialog.show();
+            currentPassIndex = 0;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.dismiss();
+            builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Choose a Password");
+            builder.setItems(charSequences, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finalPassword = charSequences[i].toString();
+                    TextView textView = findViewById(R.id.passwordView);
+                    textView.setText("Password: " + finalPassword);
+                }
+            });
+            builder.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            int count = integers[0];
+
+            for (int i = 0; i < count; i++) {
+                charSequences[currentPassIndex] = util.getPassword(passwordLength);
+                currentPassIndex++;
+                publishProgress(100 / count * currentPassIndex);
+            }
+            return null;
+        }
+    }
+
+    //Using Thread Pool
     class DoWork implements Runnable {
 
         static final int STATUS_START = 0x00;
