@@ -19,6 +19,29 @@ public class newActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
 
+        /* Variables Assignments */
+        editTextFirst = findViewById(R.id.editFirstName);
+        editTextLast = findViewById(R.id.editLastName);
+        editTextCompany = findViewById(R.id.editCompany);
+        editTextPhone = findViewById(R.id.editPhone);
+        editTextURL = findViewById(R.id.editURL);
+        editTextEmail = findViewById(R.id.editEmail);
+        editTextAddress = findViewById(R.id.editAddress);
+        editTextBirthday = findViewById(R.id.editBirthday);
+        editTextNickname = findViewById(R.id.editNickname);
+        editTextFacebook = findViewById(R.id.editFacebook);
+        editTextTwitter = findViewById(R.id.editTwitter);
+        editTextSkype = findViewById(R.id.editSkype);
+        editTextYoutube = findViewById(R.id.editYoutube);
+        /* ===================== */
+
+
+        /* =================================================
+
+                        When user clicks save
+
+        ================================================= */
+
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
