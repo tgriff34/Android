@@ -14,6 +14,8 @@ public class newActivity extends AppCompatActivity {
         editTextEmail, editTextAddress, editTextBirthday, editTextNickname, editTextFacebook,
         editTextTwitter, editTextSkype, editTextYoutube;
 
+    static String CONTACT_KEY = "CONTACT";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,14 @@ public class newActivity extends AppCompatActivity {
                     editTextPhone.setError("A phone number is required.");
                     Toast.makeText(newActivity.this, "A phone number is required", Toast.LENGTH_SHORT).show();
                 } else {
+                    Contact contact = new Contact(editTextFirst.getText().toString(), editTextLast.getText().toString(),
+                            editTextCompany.getText().toString(), editTextPhone.getText().toString(), editTextEmail.getText().toString(),
+                            editTextAddress.getText().toString(), editTextBirthday.getText().toString(), editTextNickname.getText().toString(),
+                            editTextFacebook.getText().toString(), editTextTwitter.getText().toString(), editTextSkype.getText().toString(),
+                            editTextYoutube.getText().toString());
+
                     Intent intent = new Intent(newActivity.this, displayActivity.class);
+                    intent.putExtra(CONTACT_KEY, contact);
                     startActivity(intent);
 
                 }
