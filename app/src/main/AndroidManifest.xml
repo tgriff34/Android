@@ -18,8 +18,13 @@
         </activity>
         <activity
             android:name=".newActivity"
-            android:label="@string/new_activity_label"></activity>
-        <activity android:name=".displayActivity"></activity>
+            android:label="@string/new_activity_label">
+        </activity>
+
+        <activity
+            android:name=".displayActivity"
+            android:label="@string/display_contact_label">
+        </activity>
     </application>
 
 </manifest>

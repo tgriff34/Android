@@ -2,6 +2,7 @@
     <!-- Activity labels -->
     <string name="app_name">Contacts</string>
     <string name="new_activity_label">New Contact</string>
+    <string name="display_contact_label">Contact List</string>
 
 
     <!-- Main Activity Strings -->

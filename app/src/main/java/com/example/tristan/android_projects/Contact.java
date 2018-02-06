@@ -28,4 +28,22 @@ public class Contact implements Serializable {
         this.user_skype = user_skype;
         this.user_youtube = user_youtube;
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "user_firstName='" + user_firstName + '\'' +
+                ", user_lastName='" + user_lastName + '\'' +
+                ", user_company='" + user_company + '\'' +
+                ", user_phone='" + user_phone + '\'' +
+                ", user_email='" + user_email + '\'' +
+                ", user_url='" + user_url + '\'' +
+                ", user_address='" + user_address + '\'' +
+                ", user_nickname='" + user_nickname + '\'' +
+                ", user_facebook='" + user_facebook + '\'' +
+                ", user_twitter='" + user_twitter + '\'' +
+                ", user_skype='" + user_skype + '\'' +
+                ", user_youtube='" + user_youtube + '\'' +
+                '}';
+    }
 }
