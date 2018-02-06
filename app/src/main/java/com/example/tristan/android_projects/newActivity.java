@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class newActivity extends AppCompatActivity {
 
     EditText editTextFirst, editTextLast, editTextCompany, editTextPhone, editTextURL,
@@ -51,14 +53,15 @@ public class newActivity extends AppCompatActivity {
                     editTextFirst.setError("First name is required.");
                     Toast.makeText(newActivity.this, "A first name is required", Toast.LENGTH_SHORT).show();
                 }
-                else if (TextUtils.isEmpty(editTextLast.getText())) {
+                if (TextUtils.isEmpty(editTextLast.getText())) {
                     editTextLast.setError("Last name is required.");
                     Toast.makeText(newActivity.this, "A last name is required", Toast.LENGTH_SHORT).show();
                 }
-                else if (TextUtils.isEmpty(editTextPhone.getText())) {
+                if (TextUtils.isEmpty(editTextPhone.getText())) {
                     editTextPhone.setError("A phone number is required.");
                     Toast.makeText(newActivity.this, "A phone number is required", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                if (!TextUtils.isEmpty(editTextFirst.getText()) && !TextUtils.isEmpty(editTextLast.getText()) && !TextUtils.isEmpty(editTextPhone.getText())) {
                     Contact contact = new Contact(editTextFirst.getText().toString(), editTextLast.getText().toString(),
                             editTextCompany.getText().toString(), editTextPhone.getText().toString(), editTextEmail.getText().toString(),
                             editTextAddress.getText().toString(), editTextBirthday.getText().toString(), editTextNickname.getText().toString(),

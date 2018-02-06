@@ -28,118 +28,118 @@
             android:id="@+id/editFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_firstName" />
+            android:ems="10"
+            android:hint="@string/editText_firstName"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_lastName" />
+            android:ems="10"
+            android:hint="@string/editText_lastName"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_company" />
+            android:ems="10"
+            android:hint="@string/editText_company"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_phone" />
+            android:ems="10"
+            android:hint="@string/editText_phone"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_email" />
+            android:ems="10"
+            android:hint="@string/editText_email"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editURL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_url" />
+            android:ems="10"
+            android:hint="@string/editText_url"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_address" />
+            android:ems="10"
+            android:hint="@string/editText_address"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_birthday" />
+            android:ems="10"
+            android:hint="@string/editText_birthday"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_nickname" />
+            android:ems="10"
+            android:hint="@string/editText_nickname"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_facebook" />
+            android:ems="10"
+            android:hint="@string/editText_facebook"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editTwitter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_twitter" />
+            android:ems="10"
+            android:hint="@string/editText_twitter"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editSkype"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_skype" />
+            android:ems="10"
+            android:hint="@string/editText_skype"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editYoutube"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_margin="15dp"
-            android:inputType="textPersonName"
-            android:text="@string/editText_youtube" />
+            android:ems="10"
+            android:hint="@string/editText_youtube"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/saveButton"
