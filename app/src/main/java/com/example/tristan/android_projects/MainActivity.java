@@ -1,3 +1,10 @@
+/*
+    Tristan Griffin
+    Group: 27
+    Feb 5 2018
+    In class assignment: 03
+ */
+
 package com.example.tristan.android_projects;
 
 import android.app.AlertDialog;
@@ -8,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 finalPassword = charSequences[i].toString();
                                 TextView textView = findViewById(R.id.passwordView);
-                                textView.setText("Password: " + finalPassword);
+                                textView.setText(getString(R.string.password_view) + finalPassword);
                             }
                         });
                         builder.show();
@@ -94,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
         lengthSeekBar.setProgress(0);
         final TextView textView = findViewById(R.id.passwordCountView);
         final TextView textView1 = findViewById(R.id.passwordLengthView);
-        textView.setText("Select password count: " + passwordCount);
-        textView1.setText("Select password length: " + passwordLength);
+        textView.setText(getString(R.string.password_count_view) + passwordCount);
+        textView1.setText(getString(R.string.password_length_view) + passwordLength);
         charSequences = new CharSequence[passwordCount];
 
         //When the user updates the amount of passwords, update the var value
@@ -105,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 passwordCount = 1+ i;
                 charSequences = new CharSequence[passwordCount];
-                textView.setText("Select password count: " + passwordCount);
+                textView.setText(getString(R.string.password_count_view) + passwordCount);
             }
 
             @Override
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 passwordLength = 8+ i;
-                textView1.setText("Select password length: " + passwordLength);
+                textView1.setText(getString(R.string.password_length_view) + passwordLength);
             }
 
             @Override
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     finalPassword = charSequences[i].toString();
                     TextView textView = findViewById(R.id.passwordView);
-                    textView.setText("Password: " + finalPassword);
+                    textView.setText(getString(R.string.password_view) + finalPassword);
                 }
             });
             builder.show();
@@ -190,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
+            Log.d("demo", "Progress: " + values[0]);
             progressDialog.setProgress(values[0]);
 
         }
