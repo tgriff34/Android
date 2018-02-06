@@ -93,10 +93,6 @@ public class MainActivity extends AppCompatActivity {
         lengthSeekBar = findViewById(R.id.seekBar2);
         countSeekBar.setProgress(0);
         lengthSeekBar.setProgress(0);
-        countSeekBar.setMax(10);
-        lengthSeekBar.setMax(23);
-        countSeekBar.setMin(1);
-        lengthSeekBar.setMin(8);
         final TextView textView = findViewById(R.id.passwordCountView);
         final TextView textView1 = findViewById(R.id.passwordLengthView);
         textView.setText("Select password count: " + passwordCount);
@@ -106,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         countSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                passwordCount = i;
+                passwordCount = 1+ i;
                 charSequences = new CharSequence[i];
-                textView.setText("Select password count: " + i);
+                textView.setText("Select password count: " + passwordCount);
             }
 
             @Override
@@ -125,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
         lengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                passwordLength = i;
-                textView1.setText("Select password length: " + i);
+                passwordLength = 8+ i;
+                textView1.setText("Select password length: " + passwordLength);
             }
 
             @Override
