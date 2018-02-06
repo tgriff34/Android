@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         progressDialog.setProgress(0);
                         currentPassIndex = 0;
                         progressDialog.show();
-                        Log.d("demo", "Thread starting");
+                        Log.d("demo", "Invoking Thread Handler ...");
                         break;
                     case DoWork.STATUS_PROGRESS:
 
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+            Log.d("demo", "Invoking AsyncTask ...");
             progressDialog.setProgress(0);
             progressDialog.show();
             currentPassIndex = 0;
@@ -209,8 +211,10 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i = 0; i < count; i++) {
                 charSequences[currentPassIndex] = util.getPassword(passwordLength);
-                currentPassIndex++;
+                Log.d("demo", "Number: " + currentPassIndex);
+                Log.d("demo", "Password: " + charSequences[currentPassIndex]);
                 publishProgress(100 / count * currentPassIndex);
+                currentPassIndex++;
             }
             return null;
         }
@@ -239,9 +243,6 @@ public class MainActivity extends AppCompatActivity {
                 progressMessage.what = STATUS_PROGRESS;
 
                 password = util.getPassword(passwordLength);
-
-                Log.d("demo", password);
-                Log.d("demo", "For loop count: " + i);
 
                 Bundle bundle = new Bundle();
                 bundle.putString(BUNDLE_STATUS_PROGRESS, password);
