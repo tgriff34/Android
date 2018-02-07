@@ -1,17 +1,25 @@
 package com.example.tristan.android_projects;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class NewActivity extends AppCompatActivity {
 
     public static String NEW_CONTACT_KEY = "CONTACT";
+
+    Calendar myCalendar = Calendar.getInstance();
 
     private EditText editTextFirst, editTextLast, editTextCompany, editTextPhone, editTextURL,
             editTextEmail, editTextAddress, editTextBirthday, editTextNickname, editTextFacebook,
@@ -38,6 +46,30 @@ public class NewActivity extends AppCompatActivity {
         editTextYoutube = findViewById(R.id.editYoutube);
         /* ===================== */
 
+        /* =================================================
+
+                     When user clicks birthday
+
+        ================================================= */
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                myCalendar.set(Calendar.YEAR, i);
+                myCalendar.set(Calendar.MONTH, i1);
+                myCalendar.set(Calendar.DAY_OF_MONTH, i2);
+                updateLabel();
+            }
+        };
+
+        editTextBirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(NewActivity.this, date, myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
 
         /* =================================================
 
@@ -62,10 +94,10 @@ public class NewActivity extends AppCompatActivity {
                 }
                 if (!TextUtils.isEmpty(editTextFirst.getText()) && !TextUtils.isEmpty(editTextLast.getText()) && !TextUtils.isEmpty(editTextPhone.getText())) {
                     Contact contact = new Contact(editTextFirst.getText().toString(), editTextLast.getText().toString(),
-                            editTextCompany.getText().toString(), editTextPhone.getText().toString(), editTextEmail.getText().toString(),
-                            editTextAddress.getText().toString(), editTextBirthday.getText().toString(), editTextNickname.getText().toString(),
-                            editTextFacebook.getText().toString(), editTextTwitter.getText().toString(), editTextSkype.getText().toString(),
-                            editTextYoutube.getText().toString());
+                            editTextCompany.getText().toString(), editTextPhone.getText().toString(), editTextURL.getText().toString(),
+                            editTextEmail.getText().toString(), editTextAddress.getText().toString(), editTextBirthday.getText().toString(),
+                            editTextNickname.getText().toString(), editTextFacebook.getText().toString(), editTextTwitter.getText().toString(),
+                            editTextSkype.getText().toString(), editTextYoutube.getText().toString());
                     Intent intent = new Intent(NewActivity.this, DisplayActivity.class);
                     intent.putExtra(NEW_CONTACT_KEY, contact);
                     startActivity(intent);
@@ -74,5 +106,12 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void updateLabel() {
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.US);
+
+        editTextBirthday.setText(simpleDateFormat.format(myCalendar.getTime()));
     }
 }

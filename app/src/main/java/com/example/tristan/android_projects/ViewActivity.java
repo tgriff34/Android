@@ -2,6 +2,7 @@ package com.example.tristan.android_projects;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.TextView;
 
 public class ViewActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class ViewActivity extends AppCompatActivity {
            emailView.setText(getString(R.string.textView_email) + contact.user_email);
            urlView.setText(getString(R.string.textView_url) + contact.user_url);
            addressView.setText(getString(R.string.textView_address) + contact.user_address);
-           //ADD IN BIRTHDAY
+           birthdayView.setText(getString(R.string.textView_birthday) + contact.user_birthday);
            nicknameView.setText(getString(R.string.textView_nickname) + contact.user_nickname);
            facebookView.setText(getString(R.string.textView_facebook) + contact.user_facebook);
            twitterView.setText(getString(R.string.textView_twitter) + contact.user_twitter);

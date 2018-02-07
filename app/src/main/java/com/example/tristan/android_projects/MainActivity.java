@@ -11,9 +11,11 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     public static final String VIEW_CONTACTS_KEY = "VIEW";
     public static final String DELETE_CONTACT_KEY = "DELELTE";
+    public static final String EDIT_CONTACT_KEY = "EDIT";
 
     public static final int VIEW_CONTACTS = 0;
     public static final int DELETE_CONTACT = 1;
+    public static final int EDIT_CONTACT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
                 intent.putExtra(DELETE_CONTACT_KEY, DELETE_CONTACT);
+                startActivity(intent);
+            }
+        });
+
+        /*
+                    Show contact list for editing
+         */
+        findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
+                intent.putExtra(EDIT_CONTACT_KEY, EDIT_CONTACT);
                 startActivity(intent);
             }
         });

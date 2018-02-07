@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class DisplayActivity extends AppCompatActivity {
 
+    static final int EDIT_CONTACT_CODE = 0;
     private static final String CONTACT_LIST_KEY = "CONTACT_LIST";
     public static final String VIEW_CONTACT_KEY = "VIEW_CONTACT";
 
@@ -39,6 +41,7 @@ public class DisplayActivity extends AppCompatActivity {
             Contacts = savedInstanceState.getParcelableArrayList(CONTACT_LIST_KEY);
         }
 
+        //          USER WANTS TO CREATE NEW CONTACT
         if (getIntent().getExtras().containsKey(NewActivity.NEW_CONTACT_KEY) && getIntent() != null) {
             Contact contact = (Contact) getIntent().getExtras().getParcelable(NewActivity.NEW_CONTACT_KEY);
             Log.d("demo", contact.toString());
@@ -46,6 +49,7 @@ public class DisplayActivity extends AppCompatActivity {
             Log.d("demo", "Contacts: " + Contacts.isEmpty());
             onClick();
         }
+        //          USER WANTS TO REMOVE CONTACT
         else if (getIntent().getExtras().containsKey(MainActivity.DELETE_CONTACT_KEY) && getIntent() != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -56,6 +60,19 @@ public class DisplayActivity extends AppCompatActivity {
                 }
             });
         }
+        //          USER WANTS TO EDIT CONTACTS
+        else if (getIntent().getExtras().containsKey(MainActivity.EDIT_CONTACT_KEY) && getIntent() != null) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Contact contact = Contacts.get(i);
+                    Intent intent = new Intent(DisplayActivity.this, NewActivity.class);
+                    intent.putExtra("contact", contact);
+                    startActivityForResult(intent, EDIT_CONTACT_CODE);
+                }
+            });
+        }
+        //          USER WANTS TO BROWSE CONTACTS
         else if (getIntent().getExtras().containsKey(MainActivity.VIEW_CONTACTS_KEY) && getIntent() != null) {
             onClick();
 //            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,5 +107,12 @@ public class DisplayActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_CONTACT_CODE){
+
+        }
     }
 }
