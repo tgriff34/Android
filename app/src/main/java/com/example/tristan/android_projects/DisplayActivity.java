@@ -44,6 +44,7 @@ public class DisplayActivity extends AppCompatActivity {
             Log.d("demo", contact.toString());
             Contacts.add(contact);
             Log.d("demo", "Contacts: " + Contacts.isEmpty());
+            onClick();
         }
         else if (getIntent().getExtras().containsKey(MainActivity.DELETE_CONTACT_KEY) && getIntent() != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,16 +57,17 @@ public class DisplayActivity extends AppCompatActivity {
             });
         }
         else if (getIntent().getExtras().containsKey(MainActivity.VIEW_CONTACTS_KEY) && getIntent() != null) {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Contact contact = Contacts.get(i);
-                    Log.d("demo", contact.toString());
-                    Intent intent = new Intent(DisplayActivity.this, ViewActivity.class);
-                    intent.putExtra(VIEW_CONTACT_KEY, contact);
-                    startActivity(intent);
-                }
-            });
+            onClick();
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                    Contact contact = Contacts.get(i);
+//                    Log.d("demo", contact.toString());
+//                    Intent intent = new Intent(DisplayActivity.this, ViewActivity.class);
+//                    intent.putExtra(VIEW_CONTACT_KEY, contact);
+//                    startActivity(intent);
+//                }
+//            });
         }
 
         Log.d("demo", "Contacts: " + Contacts.toString());
@@ -75,5 +77,18 @@ public class DisplayActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(CONTACT_LIST_KEY, Contacts);
+    }
+
+    private void onClick() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Contact contact = Contacts.get(i);
+                Log.d("demo", contact.toString());
+                Intent intent = new Intent(DisplayActivity.this, ViewActivity.class);
+                intent.putExtra(VIEW_CONTACT_KEY, contact);
+                startActivity(intent);
+            }
+        });
     }
 }
