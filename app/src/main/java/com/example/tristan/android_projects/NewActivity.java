@@ -13,7 +13,7 @@ public class NewActivity extends AppCompatActivity {
 
     public static String NEW_CONTACT_KEY = "CONTACT";
 
-    EditText editTextFirst, editTextLast, editTextCompany, editTextPhone, editTextURL,
+    private EditText editTextFirst, editTextLast, editTextCompany, editTextPhone, editTextURL,
             editTextEmail, editTextAddress, editTextBirthday, editTextNickname, editTextFacebook,
             editTextTwitter, editTextSkype, editTextYoutube;
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DisplayActivity extends AppCompatActivity {
 
     private static final String CONTACT_LIST_KEY = "CONTACT_LIST";
-    private static final String VIEW_CONTACT_KEY = "VIEW_CONTACT";
+    public static final String VIEW_CONTACT_KEY = "VIEW_CONTACT";
 
     private static ArrayList<Contact> Contacts = new ArrayList<>();
     ContactAdapter adapter;
@@ -59,11 +59,11 @@ public class DisplayActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Object o = listView.getItemAtPosition(i);
-                    String string = o.toString();
-
-                    Log.d("demo", string);
-
+                    Contact contact = Contacts.get(i);
+                    Log.d("demo", contact.toString());
+                    Intent intent = new Intent(DisplayActivity.this, ViewActivity.class);
+                    intent.putExtra(VIEW_CONTACT_KEY, contact);
+                    startActivity(intent);
                 }
             });
         }
