@@ -17,12 +17,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".newActivity"
+            android:name=".NewActivity"
             android:label="@string/new_activity_label">
         </activity>
 
         <activity
-            android:name=".displayActivity"
+            android:name=".DisplayActivity"
             android:label="@string/display_contact_label">
         </activity>
     </application>
