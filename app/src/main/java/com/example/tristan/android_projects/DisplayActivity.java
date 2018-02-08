@@ -1,5 +1,7 @@
 package com.example.tristan.android_projects;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -22,9 +24,11 @@ public class DisplayActivity extends AppCompatActivity {
     public static final String VIEW_CONTACT_KEY = "VIEW_CONTACT";
 
     private static ArrayList<Contact> Contacts = new ArrayList<>();
-    int editContactLocation;
     ContactAdapter adapter;
     ListView listView;
+
+    int editContactLocation, deleteContactLocation;
+    Object contactToDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +57,32 @@ public class DisplayActivity extends AppCompatActivity {
         }
         //          USER WANTS TO REMOVE CONTACT
         else if (getIntent().getExtras().containsKey(MainActivity.DELETE_CONTACT_KEY) && getIntent() != null) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DisplayActivity.this);
+
+            builder.setTitle("Delete Contact")
+                    .setMessage("Are you sure?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.d("demo", "User deleting contact");
+                            deleteContact(contactToDelete);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.d("demo", "User did not delete any contact");
+                        }
+                    });
+
+            final AlertDialog alertDialog = builder.create();
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Object o = listView.getItemAtPosition(i);
-                    Contacts.remove(o);
-                    adapter.notifyDataSetChanged();
+                    contactToDelete = listView.getItemAtPosition(i);
+                    alertDialog.show();
                 }
             });
         }
@@ -92,7 +116,7 @@ public class DisplayActivity extends AppCompatActivity {
     //          When the user wants to view a particular contact
     private void onClick() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
+            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Contact contact = Contacts.get(i);
                 Log.d("demo", contact.toString());
@@ -101,6 +125,12 @@ public class DisplayActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    //          When the user want to delete a contact
+    private void deleteContact(Object object) {
+        Contacts.remove(object);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
