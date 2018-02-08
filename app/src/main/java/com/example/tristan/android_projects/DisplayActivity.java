@@ -16,11 +16,13 @@ import java.util.ArrayList;
 
 public class DisplayActivity extends AppCompatActivity {
 
-    static final int EDIT_CONTACT_CODE = 0;
+    public static final int EDIT_CONTACT_CODE = 0;
     private static final String CONTACT_LIST_KEY = "CONTACT_LIST";
+    public static final String EDIT_CONTACT_KEY = "EDIT_CONTACT";
     public static final String VIEW_CONTACT_KEY = "VIEW_CONTACT";
 
     private static ArrayList<Contact> Contacts = new ArrayList<>();
+    int editContactLocation;
     ContactAdapter adapter;
     ListView listView;
 
@@ -66,8 +68,9 @@ public class DisplayActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Contact contact = Contacts.get(i);
+                    editContactLocation = i;
                     Intent intent = new Intent(DisplayActivity.this, NewActivity.class);
-                    intent.putExtra("contact", contact);
+                    intent.putExtra(EDIT_CONTACT_KEY, contact);
                     startActivityForResult(intent, EDIT_CONTACT_CODE);
                 }
             });
@@ -75,16 +78,6 @@ public class DisplayActivity extends AppCompatActivity {
         //          USER WANTS TO BROWSE CONTACTS
         else if (getIntent().getExtras().containsKey(MainActivity.VIEW_CONTACTS_KEY) && getIntent() != null) {
             onClick();
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                    Contact contact = Contacts.get(i);
-//                    Log.d("demo", contact.toString());
-//                    Intent intent = new Intent(DisplayActivity.this, ViewActivity.class);
-//                    intent.putExtra(VIEW_CONTACT_KEY, contact);
-//                    startActivity(intent);
-//                }
-//            });
         }
 
         Log.d("demo", "Contacts: " + Contacts.toString());
@@ -96,6 +89,7 @@ public class DisplayActivity extends AppCompatActivity {
         outState.putParcelableArrayList(CONTACT_LIST_KEY, Contacts);
     }
 
+    //          When the user wants to view a particular contact
     private void onClick() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
@@ -112,7 +106,10 @@ public class DisplayActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == EDIT_CONTACT_CODE){
-
+            Log.d("demo", "Editing contact ...");
+            Contact editedContact = (Contact) data.getExtras().get(NewActivity.EDITED_CONTACT_KEY);
+            Contacts.set(editContactLocation, editedContact);
+            adapter.notifyDataSetChanged();
         }
     }
 }
