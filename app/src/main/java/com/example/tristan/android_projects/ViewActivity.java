@@ -3,12 +3,15 @@ package com.example.tristan.android_projects;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ViewActivity extends AppCompatActivity {
 
     TextView firstNameView, lastNameView, companyView, phoneView, emailView, urlView, addressView,
         birthdayView, nicknameView, facebookView, twitterView, skypeView, youtubeView;
+
+    ImageView avatarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class ViewActivity extends AppCompatActivity {
         twitterView = findViewById(R.id.twitterView);
         skypeView = findViewById(R.id.skypeView);
         youtubeView = findViewById(R.id.youtubeView);
+        avatarView = findViewById(R.id.avatarView);
 
         if (getIntent().getExtras() != null && getIntent() != null) {
            Contact contact = getIntent().getExtras().getParcelable(DisplayActivity.VIEW_CONTACT_KEY);
@@ -45,6 +49,9 @@ public class ViewActivity extends AppCompatActivity {
            twitterView.setText(getString(R.string.textView_twitter) + contact.user_twitter);
            skypeView.setText(getString(R.string.textView_skype) + contact.user_skype);
            youtubeView.setText(getString(R.string.textView_youtube) + contact.user_youtube);
+           if (contact.user_contactAvatar != null) {
+               avatarView.setImageBitmap(contact.user_contactAvatar);
+           }
         }
     }
 }

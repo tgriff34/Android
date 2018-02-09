@@ -40,6 +40,11 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         textViewFirst.setText(contact.user_firstName);
         textViewLast.setText(contact.user_lastName);
         textViewPhone.setText(contact.user_phone);
+        if (contact.user_contactAvatar != null) {
+            imageView.setImageBitmap(contact.user_contactAvatar);
+        } else {
+            imageView.setImageResource(R.drawable.default_image);
+        }
 
         return convertView;
     }

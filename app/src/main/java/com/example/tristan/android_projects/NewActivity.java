@@ -2,28 +2,39 @@ package com.example.tristan.android_projects;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class NewActivity extends AppCompatActivity {
 
-    public static String NEW_CONTACT_KEY = "CONTACT";
-    public static String EDITED_CONTACT_KEY = "EDITED";
+    public static final String NEW_CONTACT_KEY = "CONTACT";
+    public static final String EDITED_CONTACT_KEY = "EDITED";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     Calendar myCalendar = Calendar.getInstance();
 
     private EditText editTextFirst, editTextLast, editTextCompany, editTextPhone, editTextURL,
             editTextEmail, editTextAddress, editTextBirthday, editTextNickname, editTextFacebook,
             editTextTwitter, editTextSkype, editTextYoutube;
+
+    private Bitmap avatarImageBitmap;
+
+    public ImageButton avatarButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +55,9 @@ public class NewActivity extends AppCompatActivity {
         editTextTwitter = findViewById(R.id.editTwitter);
         editTextSkype = findViewById(R.id.editSkype);
         editTextYoutube = findViewById(R.id.editYoutube);
+
+        avatarButton = findViewById(R.id.addPhotoButton);
+
         /* ===================== */
 
         /* =================================================
@@ -90,6 +104,7 @@ public class NewActivity extends AppCompatActivity {
             editTextTwitter.setText(contact.user_twitter);
             editTextSkype.setText(contact.user_skype);
             editTextYoutube.setText(contact.user_youtube);
+            avatarImageBitmap = contact.user_contactAvatar;
 
             findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,6 +139,13 @@ public class NewActivity extends AppCompatActivity {
                 }
             });
         }
+
+        avatarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
+            }
+        });
     }
 
     private void updateLabel() {
@@ -131,6 +153,13 @@ public class NewActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.US);
 
         editTextBirthday.setText(simpleDateFormat.format(myCalendar.getTime()));
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     private Contact checkValidation() {
@@ -151,9 +180,18 @@ public class NewActivity extends AppCompatActivity {
                     editTextCompany.getText().toString(), editTextPhone.getText().toString(), editTextURL.getText().toString(),
                     editTextEmail.getText().toString(), editTextAddress.getText().toString(), editTextBirthday.getText().toString(),
                     editTextNickname.getText().toString(), editTextFacebook.getText().toString(), editTextTwitter.getText().toString(),
-                    editTextSkype.getText().toString(), editTextYoutube.getText().toString());
+                    editTextSkype.getText().toString(), editTextYoutube.getText().toString(), avatarImageBitmap);
              return contact;
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            avatarImageBitmap = (Bitmap) extras.get("data");
+            avatarButton.setImageBitmap(avatarImageBitmap);
+        }
     }
 }

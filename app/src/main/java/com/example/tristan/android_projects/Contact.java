@@ -1,7 +1,9 @@
 package com.example.tristan.android_projects;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import java.io.Serializable;
 
@@ -14,10 +16,12 @@ public class Contact implements Parcelable {
     String user_firstName, user_lastName, user_company, user_phone, user_email, user_url,
         user_address, user_birthday, user_nickname, user_facebook, user_twitter, user_skype, user_youtube;
 
+    Bitmap user_contactAvatar;
+
     public Contact(String user_firstName, String user_lastName, String user_company,
                    String user_phone, String user_email, String user_url, String user_address,
                    String user_birthday, String user_nickname, String user_facebook, String user_twitter,
-                   String user_skype, String user_youtube) {
+                   String user_skype, String user_youtube, Bitmap user_contactAvatar) {
         this.user_firstName = user_firstName;
         this.user_lastName = user_lastName;
         this.user_company = user_company;
@@ -31,6 +35,7 @@ public class Contact implements Parcelable {
         this.user_twitter = user_twitter;
         this.user_skype = user_skype;
         this.user_youtube = user_youtube;
+        this.user_contactAvatar = user_contactAvatar;
     }
 
     protected Contact(Parcel in) {
@@ -47,6 +52,8 @@ public class Contact implements Parcelable {
         user_twitter = in.readString();
         user_skype = in.readString();
         user_youtube = in.readString();
+        user_contactAvatar = in.readParcelable(Bitmap.class.getClassLoader());
+
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -100,5 +107,6 @@ public class Contact implements Parcelable {
         parcel.writeString(user_twitter);
         parcel.writeString(user_skype);
         parcel.writeString(user_youtube);
+        parcel.writeParcelable(user_contactAvatar, i);
     }
 }
