@@ -57,8 +57,8 @@ public class NewActivity extends AppCompatActivity {
         editTextYoutube = findViewById(R.id.editYoutube);
 
         avatarButton = findViewById(R.id.addPhotoButton);
-
         /* ===================== */
+
 
         /* =================================================
 
@@ -86,7 +86,7 @@ public class NewActivity extends AppCompatActivity {
 
         /* =================================================
 
-                        When user is editing
+                  When user comes from edit contact
 
         ================================================= */
         if (getIntent().getExtras().containsKey(DisplayActivity.EDIT_CONTACT_KEY)) {
@@ -122,7 +122,7 @@ public class NewActivity extends AppCompatActivity {
         }
         /* =================================================
 
-                        When user clicks save
+                   When user comes from new contact
 
         ================================================= */
         else if (getIntent().getExtras().containsKey(MainActivity.NEW_CONTACT_KEY)){
@@ -140,6 +140,7 @@ public class NewActivity extends AppCompatActivity {
             });
         }
 
+        //When the user clicks the avatar button, start takePictureIntent
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,6 +149,7 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
+    //Updates text in textview to look like myFormat
     private void updateLabel() {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.US);
@@ -155,6 +157,7 @@ public class NewActivity extends AppCompatActivity {
         editTextBirthday.setText(simpleDateFormat.format(myCalendar.getTime()));
     }
 
+    //Starts intent to take a picture
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -162,6 +165,7 @@ public class NewActivity extends AppCompatActivity {
         }
     }
 
+    //Checks to make sure the appropriate fields are nonempty
     private Contact checkValidation() {
         if (TextUtils.isEmpty(editTextFirst.getText())) {
             editTextFirst.setError("First name is required.");
@@ -186,6 +190,8 @@ public class NewActivity extends AppCompatActivity {
         return null;
     }
 
+    //When you are finished taking a picture, set the button image to the picture
+    //and set avatarImageBitmap to the picture to be sent through the intent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
