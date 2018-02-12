@@ -39,24 +39,22 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private class GetImageAsync extends AsyncTask<String, Void, Bitmap> {
+    private class GetImageAsync extends AsyncTask<String, Void, Void> {
 
         ImageView imageView;
+        Bitmap bitmap;
 
         public GetImageAsync(ImageView iv) {
             this.imageView = iv;
         }
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
+        protected Void doInBackground(String... strings) {
             try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                Bitmap image;
 
-                image = BitmapFactory.decodeStream(connection.getInputStream());
-
-                return image;
+                bitmap = BitmapFactory.decodeStream(connection.getInputStream());
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
+        protected void onPostExecute(Void aVoid) {
             imageView.setImageBitmap(bitmap);
         }
     }
