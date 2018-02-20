@@ -1,21 +1,13 @@
-/*
-Name: Tristan Griffin
-Group: 16
-Date:Feb 19
-INCLASS-05
- */
 package com.example.tristan.android_projects;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,49 +19,47 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
-//32f953d146be4482b9e6476ae08a6dba
+public class NewsActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> result;
-    ArrayList<String> sources;
+    NewsAdapter newsAdapter;
+    ArrayList<NewArticles> newsActivities;
     ListView listView;
 
-    public static final String NEWS_LIST="NEWS";
+    String apiKey = "32f953d146be4482b9e6476ae08a6dba";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_news);
 
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView2);
 
-        if (isConnected()) {
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-            new GetAsyncData().execute("https://newsapi.org/v1/sources");
+        if (getIntent().getExtras() != null) {
+            String id = getIntent().getExtras().getString(MainActivity.NEWS_LIST);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //Toast.makeText(MainActivity.this, sources.get(i), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                    intent.putExtra(NEWS_LIST, sources.get(i));
-                    startActivity(intent);
-                }
-            });
+            try {
+                String stringURL = "https://newsapi.org/v1/articles" + "?" +
+                        "source=" + URLEncoder.encode(id, "UTF-8") +
+                        "&" + "apiKey=" + URLEncoder.encode(apiKey, "UTF-8");
+
+                Log.d("demo", stringURL);
+                new GetAsyncNewsData().execute(stringURL);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
 
-        } else {
-            Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+
         }
-
     }
 
     private boolean isConnected() {
@@ -84,40 +74,43 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private class GetAsyncData extends AsyncTask<String, Void, ArrayList<String>> {
+    private class GetAsyncNewsData extends AsyncTask<String, Void, ArrayList<NewArticles>> {
 
-        private ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        private ProgressDialog progressDialog = new ProgressDialog(NewsActivity.this);
+
         @Override
         protected void onPreExecute() {
-            progressDialog.setMessage("Loading Sources ...");
+            progressDialog.setMessage("Loadings Articles ...");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
         @Override
-        protected ArrayList<String> doInBackground(String... strings) {
+        protected ArrayList<NewArticles> doInBackground(String... strings) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
-            result = new ArrayList<>();
-            sources = new ArrayList<>();
             try {
                 URL url = new URL(strings[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
+                newsActivities = new ArrayList<>();
+
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String line = "";
                     while ((line = reader.readLine()) != null) {
                         JSONObject object = new JSONObject(line);
-                        JSONArray sourcesArray = object.getJSONArray("sources");
+                        JSONArray sourcesArray = object.getJSONArray("articles");
                         for (int i = 0; i < sourcesArray.length(); i++) {
                             JSONObject sourceObject = sourcesArray.getJSONObject(i);
-                            result.add(sourceObject.getString("name"));
-                            sources.add(sourceObject.getString("id"));
+                            NewArticles newArticles = new NewArticles(sourceObject.getString("author"),
+                                    sourceObject.getString("title"), sourceObject.getString("publishedAt"),
+                                    sourceObject.getString("urlToImage"));
+
+                            newsActivities.add(newArticles);
                         }
                     }
                 }
-                return result;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -125,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return null;
+            return newsActivities;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> strings) {
-            arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, strings);
-            listView.setAdapter(arrayAdapter);
+        protected void onPostExecute(ArrayList<NewArticles> strings) {
+            newsAdapter = new NewsAdapter(NewsActivity.this, R.layout.new_view, strings);
+            listView.setAdapter(newsAdapter);
             progressDialog.dismiss();
         }
     }
