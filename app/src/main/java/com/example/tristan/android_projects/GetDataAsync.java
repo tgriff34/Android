@@ -1,10 +1,12 @@
 package com.example.tristan.android_projects;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,9 +34,8 @@ public class GetDataAsync extends AsyncTask<String, Void, ArrayList<Question>> {
     Context mContext;
     Intent intent;
 
-    public GetDataAsync(Context context, ArrayList<Question> questionArrayList) {
+    public GetDataAsync(Context context) {
         this.mContext = context;
-        this.questions = questionArrayList;
     }
 
     @Override
@@ -103,7 +104,8 @@ public class GetDataAsync extends AsyncTask<String, Void, ArrayList<Question>> {
     protected void onPostExecute(ArrayList<Question> questions) {
         Log.d("demo", questions.toString());
         intent.putExtra(QUESTION_KEY, questions);
-        mContext.startActivity(intent);
         progressDialog.dismiss();
+        mContext.startActivity(intent);
+        ((Activity)mContext).finish();
     }
 }

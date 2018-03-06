@@ -51,7 +51,8 @@ public class QuestionActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.nextQuestionButton);
         quitButton = (Button) findViewById(R.id.quitButton);
 
-        if (getIntent().getExtras().containsKey(GetDataAsync.QUESTION_KEY)) {
+        if (getIntent().getExtras().containsKey(GetDataAsync.QUESTION_KEY) ||
+            getIntent().getExtras().containsKey(StatsActivity.TRY_AGAIN_KEY)) {
 
             questions = getIntent().getParcelableArrayListExtra(GetDataAsync.QUESTION_KEY);
 
@@ -64,10 +65,7 @@ public class QuestionActivity extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     Toast.makeText(QuestionActivity.this, "RAN OUT OF TIME!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(QuestionActivity.this, StatsActivity.class);
-                    intent.putExtra(STATS_USERS_ANSWER_KEY, answers);
-                    intent.putExtra(STATS_QUESTIONS_ANSWERS_KEY, questions);
-                    startActivity(intent);
+                    quizComplete();
                 }
             }.start();
 
@@ -79,37 +77,28 @@ public class QuestionActivity extends AppCompatActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    answers.add(currentQuestionNumber, getCheckedAnswer());
-                    Log.d("demo", answers.toString());
+                answers.add(currentQuestionNumber, getCheckedAnswer() + 1);
+                if (currentQuestionNumber == 15) {
+                    nextButton.setEnabled(false);
+                    quizComplete();
+                } else {
                     currentQuestionNumber++;
                     questionNumber.setText("Q" + (currentQuestionNumber + 1));
                     questionText.setText(questions.get(currentQuestionNumber).text);
                     Picasso.with(QuestionActivity.this).load(questions.get(currentQuestionNumber).image).into(questionImage);
                     createChoiceButtons(questions.get(currentQuestionNumber).choices.size());
                 }
+                }
             });
 
             quitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 }
             });
-
-            if (currentQuestionNumber == 15) {
-                nextButton.setText("Finish");
-                nextButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(QuestionActivity.this, StatsActivity.class);
-                        intent.putExtra(STATS_USERS_ANSWER_KEY, answers);
-                        intent.putExtra(STATS_QUESTIONS_ANSWERS_KEY, questions);
-                        startActivity(intent);
-                    }
-                });
-            }
         }
     }
 
@@ -119,7 +108,7 @@ public class QuestionActivity extends AppCompatActivity {
         rg.removeAllViews();
         rg.clearCheck();
 
-        for (int i = 0; i < numberOfButtons; i++) {
+        for (int i = numberOfButtons - 1; i >= 0; i--) {
             rb[i] = new RadioButton(this);
             rb[i].setText(questions.get(currentQuestionNumber).choices.get(i));
             LinearLayout.LayoutParams linearLayout = new RadioGroup.LayoutParams(
@@ -127,6 +116,14 @@ public class QuestionActivity extends AppCompatActivity {
                     RadioGroup.LayoutParams.WRAP_CONTENT);
             rg.addView(rb[i], 0, linearLayout);
         }
+    }
+
+    private void quizComplete() {
+        Intent intent = new Intent(QuestionActivity.this, StatsActivity.class);
+        intent.putExtra(STATS_USERS_ANSWER_KEY, answers);
+        intent.putExtra(STATS_QUESTIONS_ANSWERS_KEY, questions);
+        startActivity(intent);
+        finish();
     }
 
     private int getCheckedAnswer() {

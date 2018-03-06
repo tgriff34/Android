@@ -1,20 +1,17 @@
 package com.example.tristan.android_projects;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     String URL;
-    static ArrayList<Question> questions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +23,19 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new GetDataAsync(MainActivity.this, questions).execute(URL);
+                    new GetDataAsync(MainActivity.this).execute(URL);
                 }
             });
+
+            findViewById(R.id.exitButton).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Not Connected to the Internet", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     private boolean isConnected() {
@@ -40,20 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (networkInfo == null || !networkInfo.isConnected() ||
                 (networkInfo.getType() != ConnectivityManager.TYPE_WIFI
-                        && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
+                   && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
             return false;
         }
         return true;
     }
-
-    /*
-    public static void setArrayList(ArrayList<Question> questionsArrayList) {
-        questions = questionsArrayList;
-        if (questions != null) {
-            Log.d("demo", questions.toString());
-        } else {
-            Log.d("demo", "empty");
-        }
-    }
-    */
 }
