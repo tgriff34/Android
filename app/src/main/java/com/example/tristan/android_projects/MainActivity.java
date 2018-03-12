@@ -1,3 +1,9 @@
+/*
+Name: Tristan Griffin
+Group: 16
+Date March 11
+Homework #2
+ */
 package com.example.tristan.android_projects;
 
 import android.content.Context;
